@@ -11,7 +11,7 @@ import scorex.crypto.hash.Sha256
 
 import scala.util.{Random, Failure, Success}
 
-trait TwoPartyTests extends UpdateF[Array[Byte]] {
+trait TwoPartyTestsProd extends UpdateF[Array[Byte]] {
   def genElements(howMany: Int, seed: Long, size: Int = 32): Seq[Array[Byte]] = {
     val r = Random
     r.setSeed(seed)
