@@ -49,4 +49,4 @@ pomExtra :=
     </developers>
 
 
-mainClass in assembly := Some("scorex.crypto.authds.benchmarks.PerformanceMeter")
+mainClass in assembly := Some("scorex.crypto.authds.benchmarks.PerformanceMeterProd")

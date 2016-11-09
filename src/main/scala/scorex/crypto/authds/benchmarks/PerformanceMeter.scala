@@ -6,7 +6,7 @@ import scorex.crypto.authds.treap._
 import scorex.crypto.hash.Blake2b256Unsafe
 
 
-object PerformanceMeter extends App with TwoPartyTestsProd {
+object PerformanceMeterProd extends App with TwoPartyTestsProd {
 
   val Step = 1000
   val ToCalculate = 1000
