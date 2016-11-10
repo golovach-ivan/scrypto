@@ -1,15 +1,31 @@
-package scorex.crypto.authds
+
+package scorex.crypto.authds.benchmarks
 
 import com.google.common.primitives.Longs
-import scorex.crypto.TestingCommons
+import scorex.crypto.authds._
 import scorex.crypto.authds.avltree._
+import scorex.crypto.authds.TwoPartyDictionary.Label
 import scorex.crypto.authds.treap._
 import scorex.crypto.hash.Sha256
 
-import scala.util.{Failure, Success}
-import scorex.crypto.authds.TwoPartyDictionary.Label
 
-trait TwoPartyTests extends TestingCommons with UpdateF[Array[Byte]] {
+import scala.util.{Random, Failure, Success}
+
+trait TwoPartyTestsProd extends UpdateF[Array[Byte]] {
+  def genElements(howMany: Int, seed: Long, size: Int = 32): Seq[Array[Byte]] = {
+    val r = Random
+    r.setSeed(seed)
+    (0 until howMany).map { l =>
+      r.nextString(16).getBytes.take(size)
+    }
+  }
+
+  def time[R](block: => R): (Float, R) = {
+    val t0 = System.nanoTime()
+    val result = block // call-by-name
+    val t1 = System.nanoTime()
+    ((t1 - t0).toFloat / 1000000, result)
+  }
 
   def profileTree(tree: TwoPartyDictionary[Array[Byte], Array[Byte], _ <: TwoPartyProof[Array[Byte], Array[Byte]]],
                   elements: Seq[Array[Byte]], inDigest: Label): Seq[Float] = {
@@ -37,9 +53,10 @@ trait TwoPartyTests extends TestingCommons with UpdateF[Array[Byte]] {
     }
     val pl: Float = proofs.length
 
-    val proofSize = proofs.foldLeft(Array[Byte]()) { (a, b) =>
-      a ++ b.proofSeq.map(_.bytes).reduce(_ ++ _)
-    }.length / elements.length
+    val proofSize = proofs.foldLeft(0) { (a, b) =>
+      a + b.proofSeq.map(_.bytes.length).sum
+    } / elements.length
+
     Seq(insertTime, verifyTime, proofSize, m(0) / pl, m(1) / pl, m(2) / pl, m(3) / pl, m(4) / pl, m(5) / pl)
   }
 
