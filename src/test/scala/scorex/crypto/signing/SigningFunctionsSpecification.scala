@@ -2,13 +2,28 @@ package scorex.crypto.signing
 
 import org.scalatest.prop.{GeneratorDrivenPropertyChecks, PropertyChecks}
 import org.scalatest.{Matchers, PropSpec}
+import scorex.crypto.encode.Base58
 import scorex.crypto.signatures.Curve25519
 
 
 class SigningFunctionsSpecification extends PropSpec
-with PropertyChecks
-with GeneratorDrivenPropertyChecks
-with Matchers {
+  with PropertyChecks
+  with GeneratorDrivenPropertyChecks
+  with Matchers {
+
+
+  property("Changed data for all signatures") {
+    val signature = Base58.decode("5jpwaJnERa8Gr1ChgrNYnmxm2EtZ4KHC5bW1ZLL7LCY1bUV9gFWFAGjpJaPDCawmFzguqGBgYDyeocpEsKWeYDM1").get
+    val pubkey = Base58.decode("Gx9dDNxzpALCowVuZb7pBceBLJugLA8sPa6TJDXrpfeW").get
+
+    val d1 = Base58.decode("1112shApxzYHCAZHoGnedt4T3mtU6PPQY8zHhXj8wU91kHLB24nh6Hue3HhytjoQr3FNNV35pJjicUP7MLobeySbA5dgPLTXLEpsCH1GFedaSdV6oMi7").get
+    val d2 = Base58.decode("1112shApxzhz8Zexvuf1VoHcektMfsi9fySzi16rvgwZUuSQjDzE3nFkXHgpurqD4brwX6TetExJBw9qAfZTe5nwMfmx6UUNxJkjpRdsFcyqct63V5Pu").get
+    val v1 = Curve25519.verify(signature, d1, pubkey)
+    val v2 = Curve25519.verify(signature, d2, pubkey)
+
+    v1 || v2 shouldBe true
+    v1 && v2 shouldBe false
+  }
 
   property("signed message should be verifiable with appropriate public key") {
     forAll { (seed1: Array[Byte], seed2: Array[Byte],
@@ -53,4 +68,5 @@ with Matchers {
       }
     }
   }
+
 }
