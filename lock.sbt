@@ -15,7 +15,7 @@ dependencyOverrides in ThisBuild ++= Set(
   "org.mapdb" % "elsa" % "3.0.0-M5",
   "org.mapdb" % "mapdb" % "3.0.2",
   "org.scala-lang.modules" % "scala-parser-combinators_2.12" % "1.0.4",
-  "org.scala-lang.modules" % "scala-xml_2.12" % "1.0.5",
+  "org.scala-lang.modules" % "scala-xml_2.12" % "1.0.6",
   "org.scala-sbt" % "test-interface" % "1.0",
   "org.scalacheck" % "scalacheck_2.12" % "1.13.4",
   "org.scalactic" % "scalactic_2.12" % "3.0.1",
@@ -24,4 +24,4 @@ dependencyOverrides in ThisBuild ++= Set(
   "org.typelevel" % "macro-compat_2.12" % "1.1.1",
   "org.whispersystems" % "curve25519-java" % "0.3.0"
 )
-// LIBRARY_DEPENDENCIES_HASH 5b588070d0583b6701b4292be2e4904818d569b3
+// LIBRARY_DEPENDENCIES_HASH 82c7228af5c828c5eacd1f3df1597b41903b6867
